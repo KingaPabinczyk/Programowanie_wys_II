@@ -1,38 +1,46 @@
 class Osoba:
-    def __init__(self, imię, nazwisko, wiek):
-        self.imię = str(imię)
+    def __init__(self, imie, nazwisko, wiek):
+        self.imie = str(imie)
         self.nazwisko = str(nazwisko)
         self.wiek = int(wiek)
 
-    def przedstaw_się(self):
-        return "Jestem "+self.imię + " " + self.nazwisko
+    def przedstaw_sie(self):
+        return f"Jestem {self.imie} {self.nazwisko}."
+
 
 class Pracownik(Osoba):
-    def __init__(self, imię, nazwisko, wiek, stanowisko, pensja):
-        super().__init__(imię, nazwisko, wiek)
+    def __init__(self, imie, nazwisko, wiek, stanowisko, pensja):
+        super().__init__(imie, nazwisko, wiek)
         self.stanowisko = str(stanowisko)
         self.pensja = float(pensja)
 
     def info_o_pracy(self):
-        return "Pracuję jako " + self.stanowisko + ", zarabiam " + f" {self.pensja}" + " zł."
+        return f"Pracuję jako {self.stanowisko}, zarabiam {self.pensja:.2f} zł."
+
 
 class Manager(Pracownik):
-    zespół = []
-    def __init__(self, imię, nazwisko, wiek, stanowisko, pensja):
-        super().__init__(imię, nazwisko, wiek, stanowisko, pensja)
+    def __init__(self, imie, nazwisko, wiek, stanowisko, pensja):
+        super().__init__(imie, nazwisko, wiek, stanowisko, pensja)
+        self.zespol = [] 
 
-    def dodaj_do_zespołu(self, pracownik):
-        Manager.zespół.append(pracownik)
-    def info_o_pracy(self):
-        return ("Pracuję jako " + self.stanowisko + ", zarabiam "+ f" {self.pensja}" + " zł." + list(zespół) )
+    def przedstaw_sie(self):
+        return f"Jestem {self.imie} {self.nazwisko}, mam {len(self.zespol)} podwładnych."
+
+    def dodaj_do_zespolu(self, pracownik):
+        if isinstance(pracownik, Pracownik):
+            self.zespol.append(pracownik)
+        else:
+            raise TypeError("Do zespołu można dodać tylko pracownika.")
 
 
-# os1 = Osoba("Kinga", "P", 25)
-#
-# print(os1.przedstaw_się())
+pracownik1 = Pracownik("Jan", "Kowalski", 30, "Programista", 5000)
+pracownik2 = Pracownik("Anna", "Nowak", 28, "Tester", 4000)
+manager = Manager("Kinga", "Pawlak", 35, "Manager", 8000)
 
-pracownik = Pracownik("F","P",20,"pracownik",2)
-manager = Manager("Kinga", "P",25,"manager",3)
+manager.dodaj_do_zespolu(pracownik1)
+manager.dodaj_do_zespolu(pracownik2)
 
-manager.dodaj_do_zespołu(pracownik)
+print(pracownik1.przedstaw_sie())
+print(pracownik1.info_o_pracy())
+print(manager.przedstaw_sie())
 print(manager.info_o_pracy())
