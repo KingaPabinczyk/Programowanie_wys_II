@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista zadań</title>
+</head>
+<body>
+  <h1>Lista zadań</h1>
+  
+  <form method="POST" action="/tasks">
+    <input type="text" name="task" placeholder="Nowe zadanie" required>
+    <button type="submit">Dodaj</button>
+  </form>
+
+  <ul>
+    {% for task in tasks %}
+      <li>
+        {% if task.done %}
+          <s>{{ task.name }}</s>
+        {% else %}
+          {{ task.name }}
+          <a href="{{ url_for('mark_done', task_id=task.id) }}">✔️</a>
+        {% endif %}
+        <a href="{{ url_for('delete_task', task_id=task.id) }}">❌</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <a href="/">Powrót do strony głównej</a>
+</body>
+</html>
